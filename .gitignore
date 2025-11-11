@@ -1,0 +1,22 @@
+# Maven build stuff
+target/
+
+# VScode settings
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS-based
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+
+# other IDE files
+.idea/
+*.iml
+
+# Other
+data/

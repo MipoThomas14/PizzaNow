@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="edu.ksu.pizzanow.ui.HomeController">
+  <top>
+    <ToolBar>
+      <Label text="PizzaNow — Home"/>
+      <Pane xmlns="javafx.scene.layout"/>
+      <Button text="Continue" onAction="#goNext"/>
+    </ToolBar>
+  </top>
+  <center><Label text="hola" /></center>
+</BorderPane>
