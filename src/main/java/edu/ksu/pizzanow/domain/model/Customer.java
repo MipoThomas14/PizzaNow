@@ -1,5 +1,6 @@
 package edu.ksu.pizzanow.domain.model;
 
+import java.util.Objects;
 import edu.ksu.pizzanow.domain.type.PaymentType;
 
 
@@ -26,7 +27,7 @@ public class Customer {
 
     // getters and setters
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -34,7 +35,7 @@ public class Customer {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -42,19 +43,46 @@ public class Customer {
     }
 
     public PaymentType getPaymentType() {
-        return paymentType;
+        return this.paymentType;
     }
 
     public void setPaymentType(PaymentType paymentType) {
         this.paymentType = paymentType;
     }
 
+    @Override
+    public int hashCode(){
+        return Objects.hash(name, phoneNumber, paymentType);
+    }
 
+    @Override
+    public boolean equals(Object obj){
+        if(this.hashCode() == obj.hashCode()){
+            return true;
+        } 
+        
+        return false;
+    }
 
 
 
     // static methods
     public static String normalizePhoneNumber(String phoneNumber) throws IllegalArgumentException{
-        return " ";
+        for(char c : phoneNumber.toCharArray()){
+            if(!Character.isDigit(c)){
+                phoneNumber = phoneNumber.replace(String.valueOf(c), "");
+            }
+        }   
+
+        if(phoneNumber.length() != 10){
+            throw new IllegalArgumentException("Phone number must be 10 digits");
+        }
+        
+        StringBuilder normalized = new StringBuilder(phoneNumber);
+        for(int i = 3; i < phoneNumber.length()-1; i += 4){
+            normalized.insert(i, '-');
+        }
+
+        return normalized.toString();
     }
 }
