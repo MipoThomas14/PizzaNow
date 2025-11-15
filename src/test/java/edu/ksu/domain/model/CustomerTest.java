@@ -54,18 +54,6 @@ public class CustomerTest {
     }
 
     @Test
-    void testFromCSVParsesProperly() {
-        assertTrue(true);
-        // String csvLine = "Jane Doe,4041239876,42 Peachtree St,CASH";
-        // Customer parsed = Customer.fromCSV(csvLine);
-
-        // assertEquals("Jane Doe", parsed.getName());
-        // assertEquals("4041239876", parsed.getPhone());
-        // assertEquals("42 Peachtree St", parsed.getAddress());
-        // assertEquals(PaymentType.CASH, parsed.getPaymentType());
-    }
-
-    @Test
     void testEqualsAndHashCode() {
         Customer c1 = new Customer("John Doe", "5551234567", PaymentType.CREDIT);
         Customer c2 = new Customer("John Doe", "5551234567", PaymentType.CREDIT);
