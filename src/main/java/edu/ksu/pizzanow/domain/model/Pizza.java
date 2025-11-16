@@ -1,5 +1,7 @@
 package edu.ksu.pizzanow.domain.model;
 
+import java.util.Arrays;
+
 import edu.ksu.pizzanow.domain.type.*;
 
 public class Pizza extends Item{
@@ -30,17 +32,30 @@ public class Pizza extends Item{
     }
 
     public Topping[] getToppings() {
-        return this.toppings;
+        return toppings;
     }
 
+    public CrustType getCrustType() {
+        return crustType;
+    }
+
+    public PizzaSize getSize() {
+        return pizzaSize;
+    }
+    
+
     @Override
-    public String getName() {
+    public String toString() {
         String baseName = pizzaSize.toString() + " " + crustType.toString() + " Pizza";
-        if (toppings.length > 0) {
+        if (Arrays.stream(toppings).anyMatch(t -> t != null)) {
             StringBuilder sb = new StringBuilder();
-            for (Topping topping : toppings) {
-                sb.append(topping.toString()).append(", ");
+            for(int i = 0; i < toppings.length; i++) {
+                sb.append(toppings[i].toString());
+                if (i < toppings.length - 1) {
+                    sb.append(", ");
+                }
             }
+
             return baseName + " with " + sb.toString();
         }
         return baseName;
@@ -48,14 +63,12 @@ public class Pizza extends Item{
 
     @Override
     public double getPrice() {
-        if (toppings.length > 0) {
-            double totalPrice = this.basePrice + crustType.getPriceModifier() + pizzaSize.getPriceModifier();
-            for (Topping topping : toppings) {
-                totalPrice += topping.getPriceModifier();
-            }
-            return totalPrice;
+        itemUnitPrice = basePrice + crustType.getPriceModifier() + pizzaSize.getPriceModifier();
+        for (Topping topping : toppings) {
+            itemUnitPrice += topping.getPriceModifier();
         }
-        return this.basePrice + crustType.getPriceModifier() + pizzaSize.getPriceModifier();
+
+        return itemUnitPrice;
     }
 
     @Override

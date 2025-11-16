@@ -14,7 +14,8 @@ public class Beverage extends Item {
         return this.itemUnitPrice;
     }
 
-    public String getName() {
+    @Override
+    public String toString() {
         return this.itemName;
     }
 
