@@ -15,12 +15,16 @@ import java.util.function.Function;
 public class FileHandler {
     // constants
     private static final String DELIMITER = ",";
-    private static final String DATA_DIR = "data/";
-
+    private static final String DATA_DIR = "";//"data/";
 
     // public API
     public List<String[]> readCSV(String fileName, boolean hasHeader) throws IOException{
         Path path = Paths.get(DATA_DIR, fileName);
+        if(!path.isAbsolute()){
+            path = Paths.get(DATA_DIR, fileName);
+        }
+
+
         List<String[]> rows = new ArrayList<>();
 
         try(BufferedReader reader = Files.newBufferedReader(path)){
@@ -45,6 +49,9 @@ public class FileHandler {
 
     public void writeCSV(String fileName, List<String[]> rows, String[] header) throws IOException{
         Path path = Paths.get(DATA_DIR, fileName);
+        if(!path.isAbsolute()){
+            path = Paths.get(DATA_DIR, fileName);
+        }
 
         try(var writer = Files.newBufferedWriter(path)){
             if(header != null){
@@ -61,6 +68,10 @@ public class FileHandler {
 
     public void appendRow(String fileName, String[] row) throws IOException{
         Path path = Paths.get(DATA_DIR, fileName);
+        if(!path.isAbsolute()){
+            path = Paths.get(DATA_DIR, fileName);
+        }
+
         Files.createDirectories(path.getParent());
 
         try(BufferedWriter writer = Files.newBufferedWriter(
