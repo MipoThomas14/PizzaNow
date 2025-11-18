@@ -1,8 +1,11 @@
 package edu.ksu.pizzanow.domain.model;
 
 import java.util.Arrays;
+import java.util.Objects;
 
-import edu.ksu.pizzanow.domain.type.*;
+import edu.ksu.pizzanow.domain.type.CrustType;
+import edu.ksu.pizzanow.domain.type.PizzaSize;
+import edu.ksu.pizzanow.domain.type.Topping;
 
 public class Pizza extends Item{
     private final CrustType crustType;
@@ -43,6 +46,24 @@ public class Pizza extends Item{
         return pizzaSize;
     }
     
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(crustType.toString(), pizzaSize.toString(), String.valueOf(basePrice), String.valueOf(itemUnitPrice), toppings);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+
+        if(obj == null){
+            return false;
+        }
+
+        return (this.hashCode() == obj.hashCode());
+    }
 
     @Override
     public String toString() {
