@@ -1,6 +1,7 @@
 package edu.ksu.pizzanow.domain.model;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Random;
 
 
 public final class OrderId {
@@ -32,6 +33,10 @@ public final class OrderId {
 
     public long getNumericalValue(){
         return numeric;
+    }
+
+    public static boolean isOrderId(String candidate){
+        return candidate != null && candidate.matches("\\d{10}");
     }
 
     @Override

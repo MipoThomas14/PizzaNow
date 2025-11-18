@@ -1,13 +1,16 @@
 package edu.ksu.pizzanow.domain.model;
 
-import java.util.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import edu.ksu.pizzanow.domain.type.*;
+import edu.ksu.pizzanow.domain.type.OrderStatus;
+import edu.ksu.pizzanow.domain.type.OrderType;
+import edu.ksu.pizzanow.domain.type.PaymentType;
 
 public class Order {
-    private String orderId;
-    private Customer customer;
+    private final String orderId;
+    private final Customer customer;
 
     private OrderType orderType;
     private List<Item> orderItems;
@@ -72,6 +75,14 @@ public class Order {
         return orderType;
     }
 
+    public void addItem(Item toAdd){
+        orderItems.add(toAdd);
+    }
+
+    public void removeItem(Item toRemove) {
+        orderItems.remove(toRemove);
+    }
+
     public void setOrderType(OrderType orderType){
         this.orderType = orderType;
     }
@@ -103,6 +114,10 @@ public class Order {
         return total;
     }
 
+    public final void setTimeCreated(){
+        timeCreated = LocalDateTime.now();
+    }
+
     public LocalDateTime getTimeCreated() throws IllegalStateException {
         if(orderStatus == null || orderStatus == OrderStatus.INCOMPLETE){
             throw new IllegalStateException("Order status is not set. Order has not been officially created yet");
@@ -114,9 +129,8 @@ public class Order {
         return orderStatus;
     }
 
-    public void finalizeOrder(){
-        this.orderStatus = OrderStatus.COMPLETE;
-        this.timeCreated = LocalDateTime.now();
+    public final void setOrderStatus(){
+        orderStatus = OrderStatus.COMPLETE;
     }
 
     @Override
