@@ -14,7 +14,7 @@ import java.util.function.Function;
 
 public class FileHandler {
     // constants
-    private static final String DELIMITER = ",";
+    private static final String DELIMITER = ", ";
     private static final String DATA_DIR = "";//"data/";
 
     // public API
@@ -65,6 +65,41 @@ public class FileHandler {
             }
         }
     }
+
+    public void updateRow(String fileName, String identifier, String[] newRow) throws IOException {
+        Path path = Paths.get(DATA_DIR, fileName);
+        if(!path.isAbsolute()){
+            path = Paths.get(DATA_DIR, fileName);
+        }
+        List<String[]> rows = readCSV(fileName, true);
+
+        if (newRow == null || newRow.length == 0) {
+            throw new IllegalArgumentException("The new row is invalid.");
+        }
+
+        boolean updated = false;
+
+        for (int i = 0; i < rows.size(); i++) {
+            String[] currentRow = rows.get(i);
+
+            if (currentRow == null || currentRow.length == 0) {
+                throw new IllegalArgumentException("Encountered an invalid row in the CSV.");
+            }
+
+            if (currentRow[0].equals(identifier)) {
+                rows.set(i, newRow);
+                updated = true;
+                break;
+            }
+        }
+
+        if (!updated) {
+            throw new IllegalArgumentException("No row with identifier '" + identifier + "' was found.");
+        }
+
+        writeCSV(fileName, rows, null);
+}
+
 
     public void appendRow(String fileName, String[] row) throws IOException{
         Path path = Paths.get(DATA_DIR, fileName);
