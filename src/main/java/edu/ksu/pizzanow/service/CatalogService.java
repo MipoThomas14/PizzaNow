@@ -43,7 +43,7 @@ public class CatalogService {
         }
 
         List<Topping> trimmed = selectedToppings.size() > 2 ? selectedToppings.subList(0, 2) : selectedToppings;
-        Topping[] toppingArray = trimmed.toArray(new Topping[0]);
+        Topping[] toppingArray = trimmed.toArray(Topping[]::new);
         return new Pizza(crustType, pizzaSize, toppingArray);
     }
 }
