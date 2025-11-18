@@ -110,4 +110,33 @@ public class FileHandlerTest {
         assertEquals("COMPLETE", row3[8]);
 
     }
+
+
+    @Test
+    void updateRow() throws IOException {
+        String testFileName = "test-update.csv";
+        String[] header = {"ID", "Name", "Value"};
+        List<String[]> initialRows = List.of(
+            new String[]{"1", "Item1", "10"},
+            new String[]{"2", "Item2", "20"},
+            new String[]{"3", "Item3", "30"}
+        );
+
+        // Write initial data
+        fileHandler.writeCSV(testFileName, initialRows, header);
+
+        // Update row with ID "2"
+        String[] newRow = {"2", "UpdatedItem2", "200"};
+        fileHandler.updateRow(testFileName, "2", newRow);
+
+        // Read back the data to verify update
+        List<String[]> updatedRows = fileHandler.readCSV(testFileName, true);
+
+        assertEquals(3, updatedRows.size(), "There should still be 3 rows after update");
+
+        String[] row1 = updatedRows.get(1);
+        assertEquals("2", row1[0], "ID should be '2'");
+        assertEquals("UpdatedItem2", row1[1], "Name should be updated to 'UpdatedItem2'");
+        assertEquals("200", row1[2], "Value should be updated to '200'");
+    }
 }
