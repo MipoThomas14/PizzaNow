@@ -20,18 +20,8 @@ public class OrderService {
     public Order createOrder(Customer customer, List<Item> orderItems, OrderType orderType) {
         Order newOrder = new Order(customer, orderItems);
         newOrder.setOrderType(orderType);
-        
+
         return newOrder;
-    }
-
-    public void editOrder(Order order, List<Item> newItems) {
-        order.setOrderItems(newItems);
-    }
-
-    public void removeOrderItem(Order order, Item toRemove) {
-        List<Item> orderItems = order.getOrderItems();
-        orderItems.remove(toRemove);
-        editOrder(order, orderItems);
     }
 
     public void finalizeOrder(Order order) throws IOException{
