@@ -29,11 +29,19 @@ public class AppContext {
     private final CustomerService customerService;
 
 
-    public AppContext() {
+    public AppContext(){
         orderService = new OrderService();
         reportService = new ReportService();
         catalogService = new CatalogService();
         customerService = new CustomerService();
+    }
+
+    // dependency injection for flexibility and testing
+    public AppContext(OrderService orderService, ReportService reportService, CatalogService catalogService, CustomerService customerService) {
+        this.orderService = orderService;
+        this.reportService = reportService;
+        this.catalogService = catalogService;
+        this.customerService = customerService;
     }
 
     // Customer API

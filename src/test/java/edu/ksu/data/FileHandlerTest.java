@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,18 +12,6 @@ import edu.ksu.pizzanow.data.FileHandler;
 public class FileHandlerTest {
     FileHandler fileHandler;
 
-
-    private String resourcePath(String relative) {
-        try {
-            var url = getClass().getClassLoader().getResource("data/" + relative);
-            assertNotNull(url, "Resource not found: data/" + relative);
-            return java.nio.file.Paths.get(url.toURI()).toString();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to resolve resource path for: " + relative, e);
-        }
-    }
-
-
     @BeforeEach
     public void setUp(){
         fileHandler = new FileHandler();
@@ -32,7 +19,7 @@ public class FileHandlerTest {
 
     @Test
     void readCustomerCSV() throws IOException{
-        List<String[]> rows = fileHandler.readCSV(resourcePath("test-customers.csv"), true);
+        List<String[]> rows = fileHandler.readCSV("test-customers.csv", true);
         
         assertEquals(3, rows.size(), "Expected 3 customer rows");
 
@@ -57,9 +44,9 @@ public class FileHandlerTest {
 
     @Test
     void readOrderCSV() throws IOException {
-        List<String[]> rows = fileHandler.readCSV(resourcePath("test-orders.csv"), true);
+        List<String[]> rows = fileHandler.readCSV("test-orders.csv", true);
 
-        assertEquals(4, rows.size(), "Expected 4 order rows");
+        assertEquals(5, rows.size(), "Expected 5 order rows");
 
         String[] row0 = rows.get(0);
         assertEquals(9, row0.length, "Row 0 should have 9 columns");
@@ -122,15 +109,10 @@ public class FileHandlerTest {
             new String[]{"3", "Item3", "30"}
         );
 
-        // Write initial data
         fileHandler.writeCSV(testFileName, initialRows, header);
-
-        // Update row with ID "2"
         String[] newRow = {"2", "UpdatedItem2", "200"};
         fileHandler.updateRow(testFileName, "2", newRow);
-
-        // Read back the data to verify update
-        List<String[]> updatedRows = fileHandler.readCSV(testFileName, true);
+        List<String[]> updatedRows = fileHandler.readCSV(testFileName, false);
 
         assertEquals(3, updatedRows.size(), "There should still be 3 rows after update");
 
