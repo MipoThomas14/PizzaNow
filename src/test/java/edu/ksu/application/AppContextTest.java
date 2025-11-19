@@ -19,14 +19,23 @@ import edu.ksu.pizzanow.domain.type.OrderType;
 import edu.ksu.pizzanow.domain.type.PaymentType;
 import edu.ksu.pizzanow.domain.type.PizzaSize;
 import edu.ksu.pizzanow.domain.type.Topping;
+import edu.ksu.pizzanow.service.CatalogService;
+import edu.ksu.pizzanow.service.ReportService;
+import edu.ksu.service.TestCustomerService;
+import edu.ksu.service.TestOrderService;
 
 public class AppContextTest {
-
     private AppContext appContext;
 
     @BeforeEach
     void setUp() {
-        appContext = new AppContext();
+        //test dependencies
+        appContext = new AppContext( 
+            new TestOrderService(),
+            new ReportService(),
+            new CatalogService(),
+            new TestCustomerService()
+        );
     }
 
     @Test
@@ -40,7 +49,7 @@ public class AppContextTest {
 
         assertNotNull(customer);
         assertEquals("Alice", customer.getName());
-        assertEquals("5551234567", customer.getPhoneNumber());
+        assertEquals(Customer.normalizePhoneNumber("5551234567"), customer.getPhoneNumber());
         assertEquals(initialPaymentType, customer.getPaymentType());
 
         // update existing session customer
@@ -52,7 +61,7 @@ public class AppContextTest {
         Customer updated = appContext.getSessionCustomer();
 
         assertEquals("Alice Smith", updated.getName());
-        assertEquals("5559876543", updated.getPhoneNumber());
+        assertEquals(Customer.normalizePhoneNumber("5559876543"), updated.getPhoneNumber());
         assertEquals(updatedPaymentType, updated.getPaymentType());
     }
 
