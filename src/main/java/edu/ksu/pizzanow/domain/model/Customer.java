@@ -1,6 +1,7 @@
 package edu.ksu.pizzanow.domain.model;
 
 import java.util.Objects;
+
 import edu.ksu.pizzanow.domain.type.PaymentType;
 
 
@@ -67,22 +68,32 @@ public class Customer {
 
 
     // static methods
-    public static String normalizePhoneNumber(String phoneNumber) throws IllegalArgumentException{
-        for(char c : phoneNumber.toCharArray()){
-            if(!Character.isDigit(c)){
-                phoneNumber = phoneNumber.replace(String.valueOf(c), "");
-            }
-        }   
+    public static String denormalizePhoneNumber(String phoneNumber) throws IllegalArgumentException {
+        if(phoneNumber.isBlank()){
+            throw new IllegalArgumentException("Phone number cannot be null or empty.");
+        }
 
-        if(phoneNumber.length() != 10){
+        String digits = phoneNumber.replaceAll("[^0-9]", "");
+
+        if(digits.length() != 10){
             throw new IllegalArgumentException("Phone number must be 10 digits");
         }
-        
-        StringBuilder normalized = new StringBuilder(phoneNumber);
-        for(int i = 3; i < phoneNumber.length()-1; i += 4){
-            normalized.insert(i, '-');
+
+        return digits;
+    }
+    
+    public static String normalizePhoneNumber(String phoneNumber) {
+        if (phoneNumber == null) {
+            throw new IllegalArgumentException("Phone number cannot be null");
         }
 
-        return normalized.toString();
+        String digits = phoneNumber.replaceAll("[^0-9]", "");
+
+        if (digits.length() != 10) {
+            throw new IllegalArgumentException("Phone number must be 10 digits");
+        }
+
+        return String.format("%s-%s-%s", digits.substring(0, 3), digits.substring(3, 6), digits.substring(6));
     }
+
 }
