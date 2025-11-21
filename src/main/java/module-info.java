@@ -4,6 +4,9 @@ module edu.ksu.pizzanow {
   requires javafx.fxml;
   requires transitive javafx.graphics;
 
-  opens edu.ksu.pizzanow.ui to javafx.fxml;
+
   exports edu.ksu.pizzanow;
+  exports edu.ksu.pizzanow.ui;
+
+  opens edu.ksu.pizzanow.ui.controller to javafx.fxml;
 }
