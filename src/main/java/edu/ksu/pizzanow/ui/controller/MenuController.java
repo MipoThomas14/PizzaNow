@@ -99,7 +99,8 @@ public class MenuController {
             CrustType crust = CrustType.REGULAR;
             PizzaSize size = PizzaSize.MEDIUM;
 
-            appContext.addPizzaToOrder_NoToppings(crust, size);
+            Topping[] toppings = new Topping[] { Topping.EXTRA_CHEESE };
+            appContext.addPizzaToOrder(crust, size, toppings);
             updateCartCount();
 
         } catch (IllegalStateException ex) {
@@ -172,6 +173,7 @@ public class MenuController {
     @FXML
     private void onCheckoutClicked() {
         System.out.println("checkout clicked");
+        uiController.showCartScreen();
     }
 
     // ===== MAPPING HELPERS =====

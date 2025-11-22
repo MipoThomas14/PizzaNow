@@ -1,8 +1,8 @@
 package edu.ksu.pizzanow.domain.type;
 
 public enum PizzaSize {
-    SMALL(1.00),
-    MEDIUM(2.00),
+    SMALL(-1.00),
+    MEDIUM(0.00),
     LARGE(3.00),
     XLARGE(5.00);
 

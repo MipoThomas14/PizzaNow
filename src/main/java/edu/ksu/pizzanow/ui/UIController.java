@@ -5,10 +5,7 @@ import edu.ksu.pizzanow.domain.type.OrderType;
 import edu.ksu.pizzanow.ui.controller.HomeController;
 import edu.ksu.pizzanow.ui.controller.MenuController;
 import edu.ksu.pizzanow.ui.controller.RegistrationController;
-// import edu.ksu.pizzanow.ui.controller.MenuController;
-// import edu.ksu.pizzanow.ui.controller.CartController;
-// import edu.ksu.pizzanow.ui.controller.CheckoutController;
-// import edu.ksu.pizzanow.ui.controller.ConfirmationController;
+import edu.ksu.pizzanow.ui.controller.PaymentController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +13,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import edu.ksu.pizzanow.ui.controller.CartController;
 
 public class UIController {
     private final AppContext appContext;
@@ -66,20 +65,28 @@ public class UIController {
             controller.setUiController(this);
             controller.setAppContext(appContext);
         }
-
     }
 
-    // public void showCartScreen() {
-    //     CartController controller = loadScene("/edu/ksu/pizzanow/ui/Cart.fxml");
-    //     controller.setUiController(this);
-    //     controller.setAppContext(appContext);
-    // }
+    public void showCartScreen() {
+        if(appContext.getSessionCustomer() != null && appContext.getSessionOrder() != null){
+            CartController controller = loadScene("/fxml/Cart.fxml");
+            controller.setUiController(this);
+            controller.setAppContext(appContext);
+        } else {
+            throw new IllegalStateException("Session somehow doesn't have a registered order or customer...? ");
+        }
+    }
 
-    // public void showCheckoutScreen() {
-    //     CheckoutController controller = loadScene("/edu/ksu/pizzanow/ui/Checkout.fxml");
-    //     controller.setUiController(this);
-    //     controller.setAppContext(appContext);
-    // }
+    public void showPaymentScreen() {
+        if(appContext.getSessionCustomer() != null && appContext.getSessionOrder() != null){
+            PaymentController controller = loadScene("/fxml/Payment.fxml");
+            controller.setUiController(this);
+            controller.setAppContext(appContext);
+        } else {
+            throw new IllegalStateException("Session somehow doesn't have a registered order or customer...? ");
+        }
+    }
+    
 
     // public void showConfirmationScreen() {
     //     ConfirmationController controller = loadScene("/edu/ksu/pizzanow/ui/Confirmation.fxml");
