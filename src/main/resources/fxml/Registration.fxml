@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="600.0" prefWidth="800.0" 
+           style="-fx-background-color: linear-gradient(to bottom right, #E75D48, #B92B27);" 
+           xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="edu.ksu.pizzanow.ui.controller.RegistrationController">
+
+    <!-- Main Glass Card -->
+    <VBox alignment="CENTER" maxWidth="450.0" spacing="25.0" 
+          style="-fx-background-color: rgba(255, 255, 255, 0.9); -fx-background-radius: 30;">
+        
+        <padding>
+            <Insets bottom="45" left="35" right="35" top="45" />
+        </padding>
+
+        <effect>
+            <DropShadow color="#00000033" offsetY="20" radius="40" />
+        </effect>
+
+        <!-- Header Section -->
+        <HBox alignment="CENTER" spacing="10.0">
+            <!-- Small Logo Icon -->
+            <SVGPath content="M12 2 L2.5 19.5 Q12 23 21.5 19.5 Z" 
+                     fill="#C0392B" rotate="-15" scaleX="1.2" scaleY="1.2" />
+            
+            <Label text="Registration" textFill="#C0392B">
+                <font>
+                    <Font name="Segoe UI Bold" size="28.0" />
+                </font>
+            </Label>
+        </HBox>
+
+        <Label text="Create your account to start ordering." textFill="#555555">
+            <font>
+                <Font name="Segoe UI" size="14.0" />
+            </font>
+            <VBox.margin>
+                <Insets top="-15.0" />
+            </VBox.margin>
+        </Label>
+
+        <!-- Form Fields Area -->
+        <VBox spacing="20.0">
+            
+            <!-- Name Field Row -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <TextField fx:id="nameInput" promptText="Full Name" HBox.hgrow="ALWAYS"
+                           style="-fx-background-color: #FAFAFA; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 12; -fx-font-size: 14px;">
+                    <font>
+                        <Font name="Segoe UI" size="14.0" />
+                    </font>
+                </TextField>
+                <!-- Feedback Label (Hidden by default) -->
+                <Label fx:id="nameInputFeedback" text="Invalid Name" textFill="#E75D48" visible="false">
+                    <font>
+                        <Font name="Segoe UI Bold" size="12.0" />
+                    </font>
+                </Label>
+            </HBox>
+
+            <!-- Phone Field Row -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <TextField fx:id="phoneInput" promptText="Phone Number" HBox.hgrow="ALWAYS"
+                           style="-fx-background-color: #FAFAFA; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 12; -fx-font-size: 14px;">
+                    <font>
+                        <Font name="Segoe UI" size="14.0" />
+                    </font>
+                </TextField>
+                <!-- Feedback Label (Hidden by default) -->
+                <Label fx:id="phoneInputFeedback" text="Invalid Phone" textFill="#E75D48" visible="false">
+                    <font>
+                        <Font name="Segoe UI Bold" size="12.0" />
+                    </font>
+                </Label>
+            </HBox>
+
+            <!-- Payment Type Dropdown -->
+            <VBox spacing="5.0">
+                <ComboBox fx:id="paymentInput" maxWidth="Infinity" promptText="Select Payment Type"
+                          style="-fx-background-color: #FAFAFA; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 5; -fx-font-size: 14px;">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Credit" />
+                            <String fx:value="Debit" />
+                            <String fx:value="Cash" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </VBox>
+        </VBox>
+
+        <!-- Register Button -->
+        <Button fx:id="btnRegister" maxWidth="Infinity" text="Register" onAction="#onRegisterClicked" style="
+                -fx-background-color: #E75D48; 
+                -fx-text-fill: white; 
+                -fx-background-radius: 15; 
+                -fx-font-size: 16px; 
+                -fx-font-weight: bold; 
+                -fx-cursor: hand; 
+                -fx-effect: dropshadow(three-pass-box, rgba(231, 93, 72, 0.3), 10, 0, 0, 4);">
+
+            <padding>
+                <Insets bottom="15" top="15" />
+            </padding>
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+        </Button>
+
+    </VBox>
+</StackPane>
