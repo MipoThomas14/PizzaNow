@@ -1,7 +1,10 @@
 package edu.ksu.pizzanow.ui;
 
 import edu.ksu.pizzanow.application.AppContext;
+import edu.ksu.pizzanow.domain.type.OrderType;
 import edu.ksu.pizzanow.ui.controller.HomeController;
+import edu.ksu.pizzanow.ui.controller.MenuController;
+import edu.ksu.pizzanow.ui.controller.RegistrationController;
 // import edu.ksu.pizzanow.ui.controller.MenuController;
 // import edu.ksu.pizzanow.ui.controller.CartController;
 // import edu.ksu.pizzanow.ui.controller.CheckoutController;
@@ -49,11 +52,22 @@ public class UIController {
         controller.setAppContext(appContext);
     }
 
-    // public void showMenuScreen() {
-    //     MenuController controller = loadScene("/edu/ksu/pizzanow/ui/Menu.fxml");
-    //     controller.setUiController(this);
-    //     controller.setAppContext(appContext);
-    // }
+    public void showRegistrationScreen() {
+        RegistrationController controller = loadScene("/fxml/Registration.fxml");
+        controller.setUiController(this);
+        controller.setAppContext(appContext);
+    }
+
+    public void showMenuScreen() {
+        if(appContext.getSessionCustomer() != null){
+            appContext.newSessionOrder(OrderType.None);
+
+            MenuController controller = loadScene("/fxml/Menu.fxml");
+            controller.setUiController(this);
+            controller.setAppContext(appContext);
+        }
+
+    }
 
     // public void showCartScreen() {
     //     CartController controller = loadScene("/edu/ksu/pizzanow/ui/Cart.fxml");
@@ -84,7 +98,7 @@ public class UIController {
     // internal helpers
     private <T> T loadScene(String fxmlPath) {
         if (primaryStage == null) {
-            throw new IllegalStateException("UIController has not been initialized with a Stage.");
+            throw new IllegalStateException("UIController has not been initialized with a primary stage.");
         }
 
         try {

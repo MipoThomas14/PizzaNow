@@ -3,37 +3,35 @@ package edu.ksu.pizzanow.data;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-
 
 public class FileHandler {
     // constants
     private static final String DELIMITER = ", ";
     private static final String DATA_DIR = "data";
 
+    // ======================
     // public API
-    public List<String[]> readCSV(String fileName, boolean hasHeader) throws IOException{
+    // ======================
+
+    public List<String[]> readCSV(String fileName, boolean hasHeader) throws IOException {
         Path path = resolvePath(fileName);
-
-
         List<String[]> rows = new ArrayList<>();
 
-        try(BufferedReader reader = Files.newBufferedReader(path)){
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
             String line;
             boolean isFirstLine = true;
-            
-            while((line = reader.readLine()) != null){
-                if(isFirstLine && hasHeader){
-                    isFirstLine = false;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.isBlank()) {
                     continue;
                 }
-                if(line.isBlank()){
+
+                if (isFirstLine && hasHeader) {
+                    isFirstLine = false;
                     continue;
                 }
 
@@ -44,30 +42,33 @@ public class FileHandler {
         return rows;
     }
 
-    public void writeCSV(String fileName, List<String[]> rows, String[] header) throws IOException{
+    public void writeCSV(String fileName, List<String[]> rows, String[] header) throws IOException {
         Path path = resolvePath(fileName);
+        Files.createDirectories(path.getParent());
 
-        try(var writer = Files.newBufferedWriter(path)){
-            if(header != null){
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            if (header != null) {
                 writer.write(String.join(DELIMITER, header));
                 writer.newLine();
             }
 
-            for(String[] row : rows){
-                writer.write(String.join(DELIMITER, row));
+            for (String[] row : rows) {
+                String[] cleaned = trimArray(row);
+                writer.write(String.join(DELIMITER, cleaned));
                 writer.newLine();
             }
         }
     }
 
     public void updateRow(String fileName, String identifier, String[] newRow) throws IOException {
-        Path path = resolvePath(fileName);
-        List<String[]> rows = readCSV(fileName, true);
-
         if (newRow == null || newRow.length == 0) {
             throw new IllegalArgumentException("The new row is invalid.");
         }
 
+        String[] header = readHeader(fileName);
+        List<String[]> rows = readCSV(fileName, header != null);
+
+        String targetId = identifier == null ? "" : identifier.trim();
         boolean updated = false;
 
         for (int i = 0; i < rows.size(); i++) {
@@ -77,7 +78,9 @@ public class FileHandler {
                 throw new IllegalArgumentException("Encountered an invalid row in the CSV.");
             }
 
-            if (currentRow[0].equals(identifier)) {
+            String currentId = currentRow[0] == null ? "" : currentRow[0].trim();
+
+            if (currentId.equals(targetId)) {
                 rows.set(i, newRow);
                 updated = true;
                 break;
@@ -88,20 +91,20 @@ public class FileHandler {
             throw new IllegalArgumentException("No row with identifier '" + identifier + "' was found.");
         }
 
-        writeCSV(fileName, rows, null);
+        writeCSV(fileName, rows, header);
     }
 
-
-    public void appendRow(String fileName, String[] row) throws IOException{
+    public void appendRow(String fileName, String[] row) throws IOException {
         Path path = resolvePath(fileName);
         Files.createDirectories(path.getParent());
 
-        try(BufferedWriter writer = Files.newBufferedWriter(
+        try (BufferedWriter writer = Files.newBufferedWriter(
             path,
             StandardOpenOption.CREATE,
             StandardOpenOption.APPEND)) {
 
-            writer.write(String.join(DELIMITER, row));
+            String[] cleaned = trimArray(row);
+            writer.write(String.join(DELIMITER, cleaned));
             writer.newLine();
         }
     }
@@ -109,19 +112,53 @@ public class FileHandler {
     public <T> List<T> csvToObject(String fileName, boolean hasHeader, Function<String[], T> mapper) throws IOException {
         List<String[]> rows = readCSV(fileName, hasHeader);
         List<T> objectList = new ArrayList<>(rows.size());
-        for(String[] row : rows){
+        for (String[] row : rows) {
             objectList.add(mapper.apply(row));
         }
 
         return objectList;
     }
 
-    // private API
-    private Path resolvePath(String fileName){
+
+
+
+    // helpers
+    private Path resolvePath(String fileName) {
         return Paths.get(DATA_DIR, fileName);
     }
 
-    private String[] parseLine(String line){
-        return line.split(DELIMITER);
+    private String[] parseLine(String line) {
+        String[] parts = line.split(DELIMITER, -1);
+        return trimArray(parts);
+    }
+
+
+    private String[] readHeader(String fileName) throws IOException {
+        Path path = resolvePath(fileName);
+        if (!Files.exists(path)) {
+            return null;
+        }
+
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.isBlank()) {
+                    continue;
+                }
+                return parseLine(line);
+            }
+        }
+        return null;
+    }
+
+    private String[] trimArray(String[] values) {
+        if (values == null) {
+            return new String[0];
+        }
+        String[] trimmed = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            trimmed[i] = values[i] == null ? "" : values[i].trim();
+        }
+        return trimmed;
     }
 }

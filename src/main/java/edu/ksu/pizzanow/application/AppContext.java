@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.ksu.pizzanow.domain.model.Beverage;
 import edu.ksu.pizzanow.domain.model.Customer;
 import edu.ksu.pizzanow.domain.model.Item;
 import edu.ksu.pizzanow.domain.model.Order;
@@ -53,14 +54,39 @@ public class AppContext {
     }
 
     // updates existing customer attributes, creates a whole new customer if necessary
-    public void updateCustomer(String name, String phoneNumber, PaymentType paymentType) throws IOException {
+    public void updateCustomer(String phoneNumber, String name, PaymentType paymentType) throws IOException {
         if (sessionCustomer == null) { // creates a new customer
-            sessionCustomer = customerService.createCustomer(name, phoneNumber, paymentType);
+            throw new IllegalStateException("Session customer has not been created and therefore cannot be updated.");
         } else {
-            sessionCustomer.setName(name);
-            sessionCustomer.setPhoneNumber(phoneNumber);
-            sessionCustomer.setPaymentType(paymentType);
+            // only updates name and payment type, phone number serves as PK
+            if(phoneNumber.equals(sessionCustomer.getPhoneNumber())){
+                sessionCustomer.setName(name);
+                sessionCustomer.setPaymentType(paymentType);
+            } else{
+                throw new IllegalArgumentException("phone number input was not the session customer's phone number. Cannot update entry.");
+            }
+            
         }
+    }
+
+    public boolean isValidPhoneNumber(String candidate){
+        return CustomerService.isValidPhoneNumber(candidate);
+    }
+
+    public void initializeSessionCustomerWithoutExistingNumber(String phoneNumber, String name, PaymentType paymentType) throws IOException{
+        sessionCustomer = new Customer(name, phoneNumber, paymentType);
+        System.out.println("creating new customer ... " + sessionCustomer.toString());
+        customerService.saveCustomerData(sessionCustomer);
+    }
+
+    public void initializeSessionCustomerWithExistingNumber(String phoneNumber) throws IOException {
+        sessionCustomer = customerService.findExistingCustomer(phoneNumber);
+        System.out.println("initializing with existing customer ... " + sessionCustomer.toString());
+        customerService.saveCustomerData(sessionCustomer);
+    }
+
+    public boolean existsByPhone(String identifier) throws IOException{
+        return customerService.existsByPhone(identifier);
     }
 
 
@@ -102,6 +128,10 @@ public class AppContext {
         }
 
         sessionOrder.addItem(catalogService.buildPizza(crust, size, List.of()));
+    }
+
+    public void addBeverageToOrder(){
+        sessionOrder.addItem(new Beverage());
     }
 
     public List<Item> getSessionOrderItems(){

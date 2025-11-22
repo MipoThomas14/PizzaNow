@@ -18,12 +18,12 @@ public class TestCustomerService extends CustomerService {
 
 
     ////// PUBLIC API
-    @Override
-    public Customer createCustomer(String name, String phoneNumber, PaymentType paymentType) throws IOException {
-        Customer newCustomer = new Customer(name, phoneNumber, paymentType);
-        saveToFile(newCustomer);
-        return newCustomer;
-    }
+    // @Override
+    // public Customer createCustomer(String name, String phoneNumber, PaymentType paymentType) throws IOException {
+    //     Customer newCustomer = new Customer(name, phoneNumber, paymentType);
+    //     saveToFile(newCustomer);
+    //     return newCustomer;
+    // }
 
     @Override
     public void saveCustomerData(Customer customer) throws IOException {
