@@ -71,17 +71,15 @@
             </Button>
         </VBox>
 
-        <!-- Vertical Divider -->
         <Region prefWidth="2.0" style="-fx-background-color: #eee;" />
 
-        <!-- ================= RIGHT SECTION: CHECKOUT OPTIONS ================= -->
         <VBox HBox.hgrow="ALWAYS" spacing="25.0" style="-fx-padding: 40;">
             
             <Label text="Checkout Details" textFill="BLACK">
                 <font><Font name="Segoe UI Bold" size="28.0" /></font>
             </Label>
 
-            <!-- 1. Delivery Type -->
+            <!-- Order Type -->
             <VBox spacing="10.0">
                 <Label text="1. Order Type" textFill="#555"><font><Font name="Segoe UI Bold" size="16.0" /></font></Label>
                 <HBox spacing="15.0">
@@ -96,7 +94,7 @@
                 </HBox>
             </VBox>
 
-            <!-- 2. Payment Type -->
+            <!-- Payment Type -->
             <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                 <Label text="2. Payment Method" textFill="#555"><font><Font name="Segoe UI Bold" size="16.0" /></font></Label>
                 <HBox spacing="15.0">

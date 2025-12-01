@@ -13,6 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
 
 <StackPane prefHeight="600.0" prefWidth="800.0" 
            style="-fx-background-color: linear-gradient(to bottom right, #E75D48, #B92B27);" 
