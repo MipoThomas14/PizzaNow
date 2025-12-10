@@ -1,2 +1,1 @@
 orderId, customerPhone, orderType, paymentType, subtotal, tax, total, timeCreated, status
-7359733096, 678-618-3411, PICKUP, CREDIT, 22.98, 1.3788, 24.358800000000002, 2025-11-26T00:18:04.024855, COMPLETE

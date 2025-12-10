@@ -72,7 +72,7 @@ public class RegistrationController {
         if (name == null || name.isBlank()) {
             nameInputFeedback.setText("Name is required");
             nameInputFeedback.setVisible(true);
-            nameInputFeedback.setStyle("-fx-text-fill: #E75D48;"); // Red color
+            nameInputFeedback.setStyle("-fx-text-fill: #E75D48;");
             isValid = false;
         } else {
             nameInputFeedback.setVisible(false);
@@ -82,7 +82,7 @@ public class RegistrationController {
         if (phone == null || phone.isBlank() || phone.replaceAll("[^0-9]", "").length() != 10) {
             phoneInputFeedback.setText("Invalid phone (10 digits required)");
             phoneInputFeedback.setVisible(true);
-            phoneInputFeedback.setStyle("-fx-text-fill: #E75D48;"); // Red color
+            phoneInputFeedback.setStyle("-fx-text-fill: #E75D48;");
             isValid = false;
         } else {
             phoneInputFeedback.setVisible(false);
@@ -102,12 +102,14 @@ public class RegistrationController {
             System.out.println("Payment: " + payment);
 
             if(appContext.existsByPhone(phone)){
-                // here, the user already exists in the entry. just update fields
-                appContext.updateCustomer(phone, name, PaymentType.valueOf(payment.toUpperCase()));
+                // here, the user already exists in the entry. throw an error here
+                phoneInputFeedback.setText("This phone number already exists!");
+                phoneInputFeedback.setVisible(true);
+                phoneInputFeedback.setStyle("-fx-text-fill: #E75D48;");
             } else { // create new customer entry as normal
                 appContext.initializeSessionCustomerWithoutExistingNumber(phone, name, PaymentType.valueOf(payment.toUpperCase()));
+                uiController.showMenuScreen();
             }
-            uiController.showMenuScreen();
         }
     }
 }
