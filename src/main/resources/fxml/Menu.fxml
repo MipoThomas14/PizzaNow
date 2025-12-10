@@ -14,13 +14,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <StackPane prefHeight="700.0" prefWidth="1100.0" 
            style="-fx-background-color: linear-gradient(to bottom right, #E75D48, #B92B27);" 
            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
            fx:controller="edu.ksu.pizzanow.ui.controller.MenuController">
 
-    <!-- ScrollPane to handle screen sizes where horizontal width might be tight -->
     <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background: transparent; -fx-background-color: transparent;">
         <content>
             <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: transparent;">
@@ -55,8 +56,12 @@
 
                     <!-- Main Header (Spans full width) -->
                     <HBox alignment="CENTER" spacing="10.0">
-                        <SVGPath content="M12 2 L2.5 19.5 Q12 23 21.5 19.5 Z" fill="#C0392B" rotate="-15" scaleX="1.2" scaleY="1.2" />
-                        <Label text="Our Menu" textFill="#C0392B">
+                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url= "/logo.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="Menu" textFill="#C0392B">
                             <font>
                                 <Font name="Segoe UI Bold" size="32.0" />
                             </font>
@@ -66,7 +71,7 @@
                     <!-- Horizontal Container for Columns -->
                     <HBox spacing="25.0" alignment="TOP_CENTER">
                         
-                        <!-- ================= COL 1: PREMADE PIZZAS ================= -->
+                        <!-- pizza presets -->
                         <VBox spacing="15.0" HBox.hgrow="ALWAYS" minWidth="250.0">
                             <Label text="Premade Pizzas" textFill="#2c2c2c" maxWidth="Infinity" alignment="CENTER">
                                 <font>
@@ -75,15 +80,15 @@
                             </Label>
 
                             <VBox spacing="15.0" alignment="TOP_CENTER">
-                                <!-- Cheese Pizza Button -->
-                                <Button fx:id="btnCheese" maxWidth="Infinity" text="Cheese Pizza" 
+                                <!-- medium cheese  -->
+                                <Button fx:id="btnCheese" maxWidth="Infinity" text="Medium Cheese Pizza ($10.49)" 
                                         onAction="#onCheeseClicked"
                                         style="-fx-background-color: #FFF5F4; -fx-text-fill: #E75D48; -fx-border-color: #E75D48; -fx-border-radius: 15; -fx-background-radius: 15; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;">
                                     <padding><Insets bottom="20" top="20" /></padding>
                                 </Button>
                                 
-                                <!-- Pepperoni Pizza Button -->
-                                <Button fx:id="btnPepperoni" maxWidth="Infinity" text="Pepperoni Pizza" 
+                                <!-- medium pepperoni -->
+                                <Button fx:id="btnPepperoni" maxWidth="Infinity" text="Medium Pepperoni Pizza ($10.49)" 
                                         onAction="#onPepperoniClicked"
                                         style="-fx-background-color: #FFF5F4; -fx-text-fill: #E75D48; -fx-border-color: #E75D48; -fx-border-radius: 15; -fx-background-radius: 15; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;">
                                     <padding><Insets bottom="20" top="20" /></padding>
@@ -91,10 +96,9 @@
                             </VBox>
                         </VBox>
 
-                        <!-- Vertical Divider -->
                         <Region prefWidth="2.0" style="-fx-background-color: #E75D48; -fx-opacity: 0.2;" />
 
-                        <!-- ================= COL 2: BUILD YOUR OWN (Wider) ================= -->
+                        <!-- build your own pizza section -->
                         <VBox spacing="15.0" HBox.hgrow="ALWAYS" minWidth="400.0">
                             <Label text="Build Your Own Pizza" textFill="#2c2c2c" maxWidth="Infinity" alignment="CENTER">
                                 <font>
@@ -102,7 +106,7 @@
                                 </font>
                             </Label>
 
-                            <!-- Row 1: Crust & Size -->
+                            <!-- crust and size -->
                             <HBox spacing="15.0">
                                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                     <Label text="Crust Type" textFill="#777777" >
@@ -112,9 +116,9 @@
                                               style="-fx-background-color: #FAFAFA; -fx-border-color: #eeeeee; -fx-border-radius: 10; -fx-background-radius: 10; -fx-font-size: 14px;">
                                         <items>
                                             <FXCollections fx:factory="observableArrayList">
-                                                <String fx:value="Thin" />
+                                                <String fx:value="Thin (+$1)" />
                                                 <String fx:value="Regular" />
-                                                <String fx:value="Cheesy" />
+                                                <String fx:value="Cheesy (+$2)" />
                                             </FXCollections>
                                         </items>
                                     </ComboBox>
@@ -128,10 +132,10 @@
                                               style="-fx-background-color: #FAFAFA; -fx-border-color: #eeeeee; -fx-border-radius: 10; -fx-background-radius: 10; -fx-font-size: 14px;">
                                         <items>
                                             <FXCollections fx:factory="observableArrayList">
-                                                <String fx:value="Small" />
+                                                <String fx:value="Small (-$1)" />
                                                 <String fx:value="Medium" />
-                                                <String fx:value="Large" />
-                                                <String fx:value="Extra Large" />
+                                                <String fx:value="Large (+$3)" />
+                                                <String fx:value="Extra Large (+$5)" />
                                             </FXCollections>
                                         </items>
                                     </ComboBox>
@@ -206,21 +210,11 @@
                             </Label>
 
                             <!-- Soda Button with Toon SVG Icon -->
-                            <Button fx:id="btnSoda" maxWidth="Infinity" text="2L Soda ($2)" contentDisplay="TOP"
-                                    onAction="#onSodaClicked"
-                                    style="-fx-background-color: #ffffff; -fx-text-fill: #444; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-border-radius: 20; -fx-background-radius: 20; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;">
-                                <graphic>
-                                    <SVGPath content="M10,25 C10,27 12,28 15,28 C18,28 20,27 20,25 L22,8 L8,8 L10,25 Z M9,8 L21,8 L22,5 L8,5 L9,8 Z M18,5 L20,0 L18,0 L16,5 Z" 
-                                             fill="#E75D48" scaleX="1.5" scaleY="1.5">
-                                        <effect>
-                                            <DropShadow color="#00000022" radius="2" offsetY="2"/>
-                                        </effect>
-                                    </SVGPath>
-                                </graphic>
-                                <padding>
-                                    <Insets bottom="15" left="20" right="20" top="15" />
-                                </padding>
-                            </Button>
+                             <Button fx:id="btnSoda" maxWidth="Infinity" text="2L Soda ($2)" 
+                                        onAction="#onSodaClicked"
+                                        style="-fx-background-color: #FFF5F4; -fx-text-fill: #E75D48; -fx-border-color: #E75D48; -fx-border-radius: 15; -fx-background-radius: 15; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;">
+                                    <padding><Insets bottom="20" top="20" /></padding>
+                                </Button>
                         </VBox>
 
                     </HBox> <!-- End of Column Container -->

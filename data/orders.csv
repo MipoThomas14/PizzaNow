@@ -1,1 +1,2 @@
 orderId, customerPhone, orderType, paymentType, subtotal, tax, total, timeCreated, status
+3611757399, 123-456-7890, PICKUP, DEBIT, 20.98, 1.2588, 22.2388, 2025-12-10T10:26:40.011494, COMPLETE

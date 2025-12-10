@@ -86,9 +86,13 @@ public class Pizza extends Item{
     public double getPrice() {
         itemUnitPrice = basePrice + crustType.getPriceModifier() + pizzaSize.getPriceModifier();
         for (Topping topping : toppings) {
+            if(topping == null){
+                continue;
+            }
             itemUnitPrice += topping.getPriceModifier();
         }
 
+        System.out.println("\n\n\n ITEM UNIT PRICE FOR " + this.toString() + ": " + Double.toString(itemUnitPrice));
         return itemUnitPrice;
     }
 
